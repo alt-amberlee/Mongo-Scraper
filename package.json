@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/alt-amberlee/Mongo-Scraper/issues"
   },
-  "homepage": "https://github.com/alt-amberlee/Mongo-Scraper#readme"
+  "homepage": "https://github.com/alt-amberlee/Mongo-Scraper#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
