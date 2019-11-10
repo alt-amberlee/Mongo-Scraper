@@ -14,7 +14,7 @@ router.get("/scrape", (req, res) => {
             const $ = cheerio.load(body);
             let count = 0;
             // Now, we grab every article:
-            $('article').each(function (i, element) {
+            $('article.css-8atqhb').each(function (i, element) {
                 // Save an empty result object
                 let count = i;
                 let result = {};
