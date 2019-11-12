@@ -14,30 +14,29 @@ router.get("/scrape", (req, res) => {
             const $ = cheerio.load(body);
             let count = 0;
             // Now, we grab every article:
-            $('article').each(function (i, element) {
+            $('article.css-8atqhb').each(function (i, element) {
                 // Save an empty result object
                 let count = i;
                 let result = {};
                 // Add the text and href of every link, and summary and byline, saving them to object
                 result.title = $(element)
-                    .children('.story-heading')
-                    .children('a')
-                    .text().trim();
-                result.link = $(element)
-                    .children('.story-heading')
-                    .children('a')
-                    .attr("href");
-                result.summary = $(element)
-                    .children('.summary')
+                    .find('h2.css-1m5bs2v')
                     .text().trim()
-                    || $(element)
-                        .children('ul')
-                        .text().trim();
+                    || 'No summary available'
+                result.link = "https://www.nytimes.com/" + $(element)
+                    .find('a')
+                    .attr("href")
+                    || 'No summary available'
+                result.summary = $(element)
+                    .find('p.css-1pfq5u')
+                    .text().trim()
+                    || 'No summary available'
+                    
                 result.byline = $(element)
                     .children('.byline')
                     .text().trim()
                     || 'No byline available'
-                
+                console.log(result)
                 if (result.title && result.link && result.summary){
                     // Create a new Article using the `result` object built from scraping, but only if both values are present
                     db.Article.create(result)
@@ -108,6 +107,7 @@ router.get("/articles", function (req, res) {
 });
 
 router.put("/save/:id", function (req, res) {
+    console.log(req.params.id)
     db.Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: true })
         .then(function (data) {
             // If we were able to successfully find Articles, send them back to the client

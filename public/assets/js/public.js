@@ -61,20 +61,21 @@ $(document).ready(function () {
         $('#note-modal').modal('toggle');
     });
 
-    $(".save-btn").click(function(event) {
+    $(document).on("click",".save-btn",function(event) {
         event.preventDefault();
         const button = $(this);
         const id = button.attr("id");
+        console.log(id)
         $.ajax(`/save/${id}`, {
             type: "PUT"
         }).then(function() {
-            const alert = 
+            const alert = `
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
             Your note has been saved!
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            </div>
+            </div>`
             button.parent().append(alert);
             }
         );
